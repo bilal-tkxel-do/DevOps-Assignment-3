@@ -20,28 +20,6 @@ provider "azurerm" {
   features {}
 }
 
-# State Resource Group
-resource "azurerm_resource_group" "state_rg" {
-  name     = var.state_resource_group_name
-  location = var.location
-}
-
-# Storage Account for State
-resource "azurerm_storage_account" "state_storage" {
-  name                     = var.state_storage_account_name
-  resource_group_name      = azurerm_resource_group.state_rg.name
-  location                 = azurerm_resource_group.state_rg.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
-
-# Blob Container for State
-resource "azurerm_storage_container" "state_container" {
-  name                  = var.state_container_name
-  storage_account_name  = azurerm_storage_account.state_storage.name
-  container_access_type = "private"
-}
-
 # Resource Group
 resource "azurerm_resource_group" "test_rg" {
   name     = var.resource_group_name
