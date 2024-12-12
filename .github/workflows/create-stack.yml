@@ -11,15 +11,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up Azure CLI
-      uses: azure/setup-azurecli@v1
-
-    - name: Azure Login via Service Principal
-      uses: azure/login@v2
+    - uses: azure/login@v2
       with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Run state resources creation script
       run: |
