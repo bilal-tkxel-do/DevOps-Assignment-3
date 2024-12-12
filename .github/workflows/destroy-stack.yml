@@ -6,22 +6,22 @@ on:
 jobs:
   create:
     runs-on: ubuntu-latest
+    env:  # Define environment variables here
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
-    - name: Set up Azure CLI
-      uses: azure/setup-azurecli@v1
-
-    - name: Azure Login via Service Principal
-      uses: azure/login@v1
+    
+    - name: Azure CLI Login
+      uses: azure/login@v2
       with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Run Terraform Apply
+    - name: Run Terraform Destroy
       run: |
         cd terraform 
         terraform destroy -auto-approve
