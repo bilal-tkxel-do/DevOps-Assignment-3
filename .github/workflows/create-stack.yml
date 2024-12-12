@@ -17,6 +17,7 @@ jobs:
 
     - name: Run state resources creation script
       run: |
+        cd terraform
         chmod +x create-storage-account.sh  
         ./create-storage-account.sh  
 
