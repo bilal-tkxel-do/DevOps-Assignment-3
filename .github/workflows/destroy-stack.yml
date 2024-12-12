@@ -24,6 +24,7 @@ jobs:
     - name: Run Terraform Destroy
       run: |
         cd terraform 
+        terraform init
         terraform destroy -auto-approve
 
     - name: Run state resources deletion script
