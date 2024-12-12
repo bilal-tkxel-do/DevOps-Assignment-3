@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up Azure CLI
-      uses: azure/setup-azurecli@v1
+      uses: azure/setup-azurecli@v2
 
     # Log in to Azure using Service Principal credentials
     - name: Azure Login via Service Principal
