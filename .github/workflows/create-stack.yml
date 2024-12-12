@@ -1,0 +1,32 @@
+name: Create Stack
+
+on:
+  workflow_dispatch:  
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Azure CLI
+      uses: AzureCLI@2
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Run state resources creation script
+      run: |
+        cd terraform
+        chmod +x create-storage-account.sh  
+        ./create-storage-account.sh  
+
+    - name: Run Terraform Apply
+      run: |
+        cd terraform
+        terraform init 
+        terraform apply -auto-approve
