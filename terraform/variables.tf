@@ -65,3 +65,20 @@ variable "admin_password" {
   default     = "Admin@1234"
 }
 
+variable "state_storage_account_name" {
+  description = "The name of the storage account for Terraform state"
+  type        = string
+  default     = "teststorageaccount"
+}
+
+variable "state_container_name" {
+  description = "The name of the blob container for Terraform state"
+  type        = string
+  default     = "terraform-state"
+}
+
+variable "state_file_name" {
+  description = "The name of the Terraform state file"
+  type        = string
+  default     = "terraform.tfstate"
+}

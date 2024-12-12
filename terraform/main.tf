@@ -1,5 +1,11 @@
 # Required providers
 terraform {
+  backend "azurerm" {
+    resource_group_name  = "test-resource-group"
+    storage_account_name = "statestorageacctbilal"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -69,7 +75,7 @@ resource "azurerm_linux_virtual_machine" "test_vm" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
-  
+
   source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
@@ -78,3 +84,18 @@ resource "azurerm_linux_virtual_machine" "test_vm" {
   }
 }
 
+# Storage Account for State
+resource "azurerm_storage_account" "state_storage" {
+  name                     = var.state_storage_account_name
+  resource_group_name      = azurerm_resource_group.test_rg.name
+  location                 = azurerm_resource_group.test_rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+# Blob Container for State
+resource "azurerm_storage_container" "state_container" {
+  name                  = var.state_container_name
+  storage_account_name  = azurerm_storage_account.state_storage.name
+  container_access_type = "private"
+}
