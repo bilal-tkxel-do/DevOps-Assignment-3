@@ -1,0 +1,32 @@
+name: Delete Stack
+
+on:
+  workflow_dispatch:  
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Azure CLI
+      uses: azure/setup-azurecli@v1
+
+    - name: Azure Login via Service Principal
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+    - name: Run Terraform Apply
+      run: |
+        cd terraform 
+        terraform destroy -auto-approve
+
+    - name: Run state resources deletion script
+      run: |
+        chmod +x delete-storage-account.sh
+        ./delete-storage-account.sh
