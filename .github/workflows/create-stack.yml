@@ -11,14 +11,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Azure Login
+    - name: Azure CLI Login
       uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         
     - name: Run state resources creation script
       run: |
-        az login --service-principal -u "AZURE_CLIENT_ID" --tenant "AZURE_TENANT_ID"
         cd terraform
         chmod +x create-storage-account.sh  
         ./create-storage-account.sh  
