@@ -29,5 +29,6 @@ jobs:
 
     - name: Run state resources deletion script
       run: |
+        cd terraform
         chmod +x delete-storage-account.sh
         ./delete-storage-account.sh
