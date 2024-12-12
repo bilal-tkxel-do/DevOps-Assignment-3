@@ -18,6 +18,7 @@ jobs:
         
     - name: Run state resources creation script
       run: |
+        az login --service-principal -u "AZURE-CLIENT_ID" --tenant "AZURE_TENANT_ID"
         cd terraform
         chmod +x create-storage-account.sh  
         ./create-storage-account.sh  
