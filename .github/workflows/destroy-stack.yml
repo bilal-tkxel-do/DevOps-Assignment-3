@@ -4,7 +4,7 @@ on:
   workflow_dispatch:  
 
 jobs:
-  create:
+  destroy:
     runs-on: ubuntu-latest
     env:  # Define environment variables here
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
