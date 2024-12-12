@@ -3,6 +3,10 @@ name: Create Stack
 on:
   workflow_dispatch:  
 
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
   create:
     runs-on: ubuntu-latest
