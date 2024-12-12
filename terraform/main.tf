@@ -1,7 +1,7 @@
 # Required providers
 terraform {
   backend "azurerm" {
-    resource_group_name  = "test-resource-group"
+    resource_group_name  = "state-resource-group"
     storage_account_name = "statestorageacctbilal"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
@@ -18,6 +18,28 @@ terraform {
 # Azure Provider Configuration with Authentication
 provider "azurerm" {
   features {}
+}
+
+# State Resource Group
+resource "azurerm_resource_group" "state_rg" {
+  name     = var.state_resource_group_name
+  location = var.location
+}
+
+# Storage Account for State
+resource "azurerm_storage_account" "state_storage" {
+  name                     = var.state_storage_account_name
+  resource_group_name      = azurerm_resource_group.state_rg.name
+  location                 = azurerm_resource_group.state_rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+# Blob Container for State
+resource "azurerm_storage_container" "state_container" {
+  name                  = var.state_container_name
+  storage_account_name  = azurerm_storage_account.state_storage.name
+  container_access_type = "private"
 }
 
 # Resource Group
@@ -82,20 +104,4 @@ resource "azurerm_linux_virtual_machine" "test_vm" {
     sku       = "22_04-lts-gen2"
     version   = "latest"
   }
-}
-
-# Storage Account for State
-resource "azurerm_storage_account" "state_storage" {
-  name                     = var.state_storage_account_name
-  resource_group_name      = azurerm_resource_group.test_rg.name
-  location                 = azurerm_resource_group.test_rg.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
-
-# Blob Container for State
-resource "azurerm_storage_container" "state_container" {
-  name                  = var.state_container_name
-  storage_account_name  = azurerm_storage_account.state_storage.name
-  container_access_type = "private"
 }
