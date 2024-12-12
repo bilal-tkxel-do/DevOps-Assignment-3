@@ -15,7 +15,7 @@ jobs:
       uses: azure/setup-azurecli@v1
 
     - name: Azure Login via Service Principal
-      uses: azure/login@v1
+      uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
