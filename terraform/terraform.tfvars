@@ -9,7 +9,4 @@ vm_name                    = "test-vm"
 vm_size                    = "Standard_B1s"
 admin_username             = "admin-bilal"
 admin_password             = "Admin@1234"
-state_resource_group_name  = "state-resource-group"
-state_storage_account_name = "statestorageacctbilal"
-state_container_name       = "tfstate"
-state_file_name            = "terraform.tfstate"
+
