@@ -39,6 +39,13 @@ variable "public_ip_name" {
   type        = string
   default     = "test-public-ip"
 }
+
+variable "nsg_name" {
+  description = "Name of the network security group"
+  type        = string
+  default     = "test-nsg"
+}
+
 variable "nic_name" {
   description = "Name of the Network Interface"
   type        = string

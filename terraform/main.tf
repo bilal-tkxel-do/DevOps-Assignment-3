@@ -51,6 +51,26 @@ resource "azurerm_public_ip" "test_public_ip" {
   sku               = "Basic"
 }
 
+resource "azurerm_network_security_group" "test_nsg" {
+  name                = var.nsg_name
+  location            = azurerm_resource_group.test_rg.location
+  resource_group_name = azurerm_resource_group.test_rg.name
+}
+
+resource "azurerm_network_security_rule" "allow_ssh" {
+  resource_group_name         = azurerm_resource_group.test_rg.name
+  name                        = "allow_ssh"
+  priority                    = 1000
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = azurerm_network_security_group.test_nsg.name
+}
+
 # Network Interface
 resource "azurerm_network_interface" "test_nic" {
   name                = var.nic_name
@@ -63,6 +83,13 @@ resource "azurerm_network_interface" "test_nic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.test_public_ip.id
   }
+
+}
+
+# Network Interface Security Group Association
+resource "azurerm_network_interface_security_group_association" "test_nic_nsg_association" {
+  network_interface_id      = azurerm_network_interface.test_nic.id
+  network_security_group_id = azurerm_network_security_group.test_nsg.id
 }
 
 # Virtual Machine
