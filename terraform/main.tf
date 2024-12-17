@@ -42,6 +42,15 @@ resource "azurerm_subnet" "test_subnet" {
   address_prefixes     = var.subnet_prefix
 }
 
+resource "azurerm_public_ip" "test_public_ip" {
+  name                = var.public_ip_name
+  location            = azurerm_resource_group.test_rg.location
+  resource_group_name = azurerm_resource_group.test_rg.name
+
+  allocation_method = "Dynamic"
+  sku               = "Basic"
+}
+
 # Network Interface
 resource "azurerm_network_interface" "test_nic" {
   name                = var.nic_name
@@ -52,6 +61,7 @@ resource "azurerm_network_interface" "test_nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.test_subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.test_public_ip.id
   }
 }
 

@@ -34,6 +34,11 @@ variable "subnet_prefix" {
   default     = ["10.0.1.0/24"]
 }
 
+variable "public_ip_name" {
+  description = "Name of the public IP address"
+  type        = string
+  default     = "test-public-ip"
+}
 variable "nic_name" {
   description = "Name of the Network Interface"
   type        = string
